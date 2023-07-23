@@ -192,13 +192,13 @@ def make_screenshot_and_get_ints():
         # image.save(filename)
         # price = get_int_from_img(filename)
 
-def move_lowest_to_top():
+def move_lowest_to_top(searchOnSecoundScreen):
     random_delay(0.6, 1.3)
-    locate_and_move("Images/Select_search.png", True)
+    locate_and_move("Images/Select_search.png", searchOnSecoundScreen)
     random_delay(1, 1.3)
     pydirectinput.click()
     random_delay(0.6, 1.3)
-    locate_and_move("Images/Select_unit_price.png", True)
+    locate_and_move("Images/Select_unit_price.png", searchOnSecoundScreen)
     random_delay(0.6, 1.3)
     pydirectinput.click()
     low_high = make_screenshot_and_get_ints()
@@ -216,9 +216,9 @@ def move_lowest_to_top():
     print(lowest_price)
     return lowest_price
 
-def search_item(item):
+def search_item(item, searchOnSecoundScreen):
     random_delay(1, 1.3)
-    locate_and_move("Images/Select_searchbar.png", True)
+    locate_and_move("Images/Select_searchbar.png", searchOnSecoundScreen)
     random_delay(0.6, 1.3)
     pydirectinput.click()
     random_delay(0.6, 1.3)
@@ -226,9 +226,9 @@ def search_item(item):
     random_delay(0.6, 1.3)
 
 
-def buy_item():
+def buy_item(searchOnSecoundScreen):
     random_delay(1, 1.3)
-    current_x_y = locate_and_move("Images/Select_price.png", True)
+    current_x_y = locate_and_move("Images/Select_price.png", searchOnSecoundScreen)
     random_delay(0.6, 1.3)
     new_value = current_x_y[1] + 30
     updated_tuple = current_x_y[0], new_value
@@ -236,17 +236,18 @@ def buy_item():
     random_delay(0.6, 1.3)
     pydirectinput.rightClick()
     random_delay(0.6, 1.3)
-    locate_and_move("Images/Select_ok.png", True)
+    locate_and_move("Images/Select_ok.png", searchOnSecoundScreen)
     random_delay(0.6, 1.3)
     pydirectinput.click()
 
-def reset():
-    locate_and_move("Images/Select_reset.png", True)
+def reset(searchOnSecoundScreen):
+    locate_and_move("Images/Select_reset.png", searchOnSecoundScreen)
     random_delay(0.6, 1.3)
     pydirectinput.click()
 
 if __name__ == "__main__":
     isFirstRun = True
+    searchOnSecoundScreen = True
     random_delay(3, 4)
     dict_search_items = {
         "superb accessorz flux": 13001
@@ -258,17 +259,17 @@ if __name__ == "__main__":
     for key, value in dict_search_items.items():
         print(key, value)
         select_exact_match(isFirstRun)
-        search_item(key)
+        search_item(key, searchOnSecoundScreen)
         while True:
-            price = move_lowest_to_top()
+            price = move_lowest_to_top(searchOnSecoundScreen)
             if price < value:
-                buy_item()
+                buy_item(searchOnSecoundScreen)
                 print("buyed")
                 isFirstRun = False
             else:
                 print("price too high")
                 isFirstRun = False
-                reset()
+                reset(searchOnSecoundScreen)
                 break
 
 
